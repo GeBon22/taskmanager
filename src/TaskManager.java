@@ -17,7 +17,7 @@ public class TaskManager {
         }
     }
 
-    public void updateTask(int Index, String newTitle, String newDescription, boolean completed) {
+    public void updateTask(int index, String newTitle, String newDescription, boolean completed) {
         if (index >= 0 && index < tasks.size()) {
             Task taskToUpdate = tasks.get(index);
             taskToUpdate.setTitle(newTitle);
@@ -32,7 +32,7 @@ public class TaskManager {
         }
     }
 
-    public void deleteTask(int Index) {
+    public void deleteTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             tasks.remove(index);
             System.out.println("Task removed successfully");

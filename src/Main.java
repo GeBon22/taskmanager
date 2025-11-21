@@ -50,7 +50,7 @@ public class Main {
             } else if (input.equals("5")) {
                 System.out.print("Enter keyword to search: ");
                 String keyword = scanner.nextLine();
-                ArrayList<Task> foundTasks = manager.searchTasks(keyword);
+                ArrayList<Task> foundTasks = manager.searchTask(keyword);
                 if (foundTasks.isEmpty()) {
                     System.out.println("No tasks found with that keyword.");
                 } else {
