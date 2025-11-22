@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeParseException;
 
@@ -9,7 +10,10 @@ public class Main {
     private static final int UPDATE_TASK_OPTION = 3;
     private static final int DELETE_TASK_OPTION = 4;
     private static final int SEARCH_TASKS_OPTION = 5;
-    private static final int EXIT_OPTION = 6;
+    private static final int SORT_BY_PRIORITY_OPTION = 6;
+    private static final int SORT_BY_DUE_DATE_OPTION = 7;
+    private static final int FILTER_DUE_TODAY_OPTION = 8;
+    private static final int EXIT_OPTION = 9;
 
     private static final String[] MENU_OPTIONS = {
             "Add Task",
@@ -17,6 +21,9 @@ public class Main {
             "Update Task",
             "Delete Task",
             "Search Tasks",
+            "Sort Tasks by Priority",
+            "Sort Tasks by Due Date",
+            "Filter Tasks Due Today",
             "Exit"
     };
 
@@ -29,6 +36,13 @@ public class Main {
             displayMenu();
             System.out.print("Choose an option: ");
             input = scanner.nextLine();
+
+            if (input.equals("Sort Tasks by Priority")) {
+               manager.sortTasksByPriority();
+            } else if (input.equals("Filter Tasks Due Today")) {
+                List<Task> dueTodayTasks = manager.filterTasksByDueDate(LocalDate.now());
+                dueTodayTasks.forEach(task -> System.out.println((task.getTitle())));
+            }
 
             // Add Task
             if (input.equals(String.valueOf(ADD_TASK_OPTION))) {
@@ -90,6 +104,26 @@ public class Main {
                 } else {
                     System.out.println("Found Tasks:");
                     for (Task task : foundTasks) {
+                        System.out.println(" - " + task.getTitle());
+                    }
+                }
+
+            } else if (input.equals(String.valueOf(SORT_BY_PRIORITY_OPTION))) {
+                manager.sortTasksByPriority();
+                System.out.println(("Tasks sorted by due date."));
+
+            } else if (input.equals(String.valueOf(SORT_BY_DUE_DATE_OPTION))) {
+                manager.sortTasksByDueDate();
+                System.out.println("Tasks sorted by due date.");
+
+
+            } else if (input.equals(String.valueOf(FILTER_DUE_TODAY_OPTION))) {
+                List<Task> dueTodayTasks = manager.filterTasksByDueDate(LocalDate.now());
+                if(dueTodayTasks.isEmpty()) {
+                    System.out.println("No tasks are due today!");
+                } else {
+                    System.out.println("Task due today: ");
+                    for (Task task : dueTodayTasks) {
                         System.out.println(" - " + task.getTitle());
                     }
                 }

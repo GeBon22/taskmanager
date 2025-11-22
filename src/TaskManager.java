@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 import java.time.LocalDate;
 
 public class TaskManager {
@@ -6,6 +6,15 @@ public class TaskManager {
 
     public TaskManager() {
         tasks = new ArrayList<>();
+    }
+
+    private static final Map<String, Integer> PRIORITY_MAP;
+
+    static {
+        PRIORITY_MAP = new HashMap<>();
+        PRIORITY_MAP.put("High", 1);
+        PRIORITY_MAP.put("Medium", 2);
+        PRIORITY_MAP.put("Low", 3);
     }
 
     public void addTask(String title, String description, String priority, LocalDate dueDate) {
@@ -71,4 +80,41 @@ public class TaskManager {
                     " | Completed: " + task.isCompleted());
         }
     }
+
+    public void sortTasksByPriority() {
+        tasks.sort(Comparator.comparingInt(a -> PRIORITY_MAP.get(a.getPriority())));
+        System.out.println("Tasks sorted by priority.");
+    }
+
+    public void sortTasksByDueDate() {
+        Collections.sort(tasks, new Comparator<Task>() {
+            @Override
+            public int compare(Task a, Task b) {
+                return a.getDueDate().compareTo(b.getDueDate());
+            }
+        });
+    }
+
+    public List<Task> filterTasksByDueDate(LocalDate filterDate) {
+        List<Task> filteredTasks = new ArrayList<>();
+        for (Task task: tasks) {
+            if (task.getDueDate().isEqual(filterDate)) {
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
+    }
+
+    public List<Task> filterTasksDueSoon() {
+        LocalDate today = LocalDate.now();
+        LocalDate nextWeek = today.plusWeeks(1);
+        List<Task> filteredTasks = new ArrayList<>();
+        for (Task task: tasks) {
+            if (task.getDueDate().isAfter(today) && task.getDueDate().isBefore(nextWeek)) {
+                filteredTasks.add(task);
+            }
+        }
+        return filteredTasks;
+    }
+
 }
