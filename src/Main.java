@@ -29,6 +29,7 @@ public class Main {
 
     public static void main(String[] args) {
         TaskManager manager = new TaskManager();
+        manager.loadTasksFromFile("tasks.csv");
         Scanner scanner = new Scanner(System.in);
         String input;
 
@@ -131,7 +132,7 @@ public class Main {
 
             } else if (input.equals(String.valueOf(FILTER_DUE_TODAY_OPTION))) {
                 List<Task> dueTodayTasks = manager.filterTasksByDueDate(LocalDate.now());
-                if(dueTodayTasks.isEmpty()) {
+                if (dueTodayTasks.isEmpty()) {
                     System.out.println("No tasks are due today!");
                 } else {
                     System.out.println("Task due today: ");
@@ -147,7 +148,7 @@ public class Main {
                 System.out.println("Invalid option, please try again.");
             }
         } while (!input.equals(String.valueOf(EXIT_OPTION)));
-
+        manager.saveTasksToFile("tasks.csv");
         scanner.close();
     }
 

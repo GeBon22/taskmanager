@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -119,6 +120,42 @@ public class TaskManager {
             }
         }
         return filteredTasks;
+    }
+
+    public void saveTasksToFile(String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Task task: tasks) {
+                String line = String.join(",", task.getTitle(), task.getDescription(),
+                        task.getPriority(), task.getDueDate().toString(),
+                        String.valueOf(task.isCompleted()));
+                        writer.write(line);
+                        writer.newLine();
+            }
+            System.out.println("Tasks saved successfully!");
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    public void loadTasksFromFile(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] attributes = line.split(",");
+                String title = attributes[0];
+                String description = attributes[1];
+                String priority = attributes[2];
+                LocalDate dueDate = LocalDate.parse(attributes[3]);
+                boolean isCompleted = Boolean.parseBoolean(attributes[4]);
+
+                Task task = new Task(title, description, priority, dueDate);
+                if (isCompleted) task.markAsCompleted();
+                tasks.add(task);
+            }
+            System.out.println("Tasks loaded successfully!");
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading tasks: " + e.getMessage());
+        }
     }
 
 }
