@@ -50,8 +50,6 @@ public class Main {
                 String title = scanner.nextLine();
                 System.out.print("Enter Task Description: ");
                 String description = scanner.nextLine();
-                System.out.print("Enter Task Priority: ");
-                String priority = scanner.nextLine();
                 System.out.print("Enter Task DueDate: ");
 
                 LocalDate dueDate = null;
@@ -64,6 +62,20 @@ public class Main {
                         validDate = true;
                     } catch (DateTimeParseException e) {
                         System.out.println("Invalid date format. Please try again.");
+                    }
+                }
+
+                boolean validPriority = false;
+                String priority = null;
+
+                while (!validPriority) {
+                    System.out.print("Enter Task Priority (Low, Medium, High): ");
+                    priority = scanner.nextLine();
+
+                    if (priority.equals("Low") || priority.equals("Medium") || priority.equals("High")) {
+                        validPriority = true;
+                    } else {
+                        System.out.println("Invalid priority! Please use Low, Medium, or High.");
                     }
                 }
 
@@ -110,7 +122,7 @@ public class Main {
 
             } else if (input.equals(String.valueOf(SORT_BY_PRIORITY_OPTION))) {
                 manager.sortTasksByPriority();
-                System.out.println(("Tasks sorted by due date."));
+                System.out.println(("Tasks sorted by priority."));
 
             } else if (input.equals(String.valueOf(SORT_BY_DUE_DATE_OPTION))) {
                 manager.sortTasksByDueDate();

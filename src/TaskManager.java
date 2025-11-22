@@ -18,6 +18,11 @@ public class TaskManager {
     }
 
     public void addTask(String title, String description, String priority, LocalDate dueDate) {
+        if(!PRIORITY_MAP.containsKey(priority)) {
+            System.out.println("Invalid priority! Please use Low, Medium or High.");
+            return;
+        }
+
         Task newTask = new Task(title, description, priority, dueDate);
         tasks.add(newTask);
     }
@@ -83,7 +88,6 @@ public class TaskManager {
 
     public void sortTasksByPriority() {
         tasks.sort(Comparator.comparingInt(a -> PRIORITY_MAP.get(a.getPriority())));
-        System.out.println("Tasks sorted by priority.");
     }
 
     public void sortTasksByDueDate() {
