@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class TaskManager {
     private ArrayList<Task> tasks;
@@ -7,8 +8,9 @@ public class TaskManager {
         tasks = new ArrayList<>();
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public void addTask(String title, String description, String priority, LocalDate dueDate) {
+        Task newTask = new Task(title, description, priority, dueDate);
+        tasks.add(newTask);
     }
 
     public void displayTasks() {
@@ -61,10 +63,12 @@ public class TaskManager {
     }
 
     public void listAllTasks() {
-        for (int i = 0; i < tasks.size(); i ++) {
+        for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
-            System.out.println(i + ": " + task.getTitle() + " | Completed: " + task.isCompleted());
+            System.out.println(i + ": " + task.getTitle() +
+                    " | Priority: " + task.getPriority() +
+                    " | Due Date: " + task.getDueDate() +
+                    " | Completed: " + task.isCompleted());
         }
-
     }
 }

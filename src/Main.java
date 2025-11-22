@@ -1,8 +1,9 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.format.DateTimeParseException;
 
 public class Main {
-    // Define constants for menu options
     private static final int ADD_TASK_OPTION = 1;
     private static final int VIEW_TASKS_OPTION = 2;
     private static final int UPDATE_TASK_OPTION = 3;
@@ -35,8 +36,24 @@ public class Main {
                 String title = scanner.nextLine();
                 System.out.print("Enter Task Description: ");
                 String description = scanner.nextLine();
-                Task newTask = new Task(title, description);
-                manager.addTask(newTask);
+                System.out.print("Enter Task Priority: ");
+                String priority = scanner.nextLine();
+                System.out.print("Enter Task DueDate: ");
+
+                LocalDate dueDate = null;
+                boolean validDate = false;
+                while (!validDate) {
+                    System.out.print("Enter Due Date (YYYY-MM-DD): ");
+                    String dateInput = scanner.nextLine();
+                    try {
+                        dueDate = LocalDate.parse(dateInput);
+                        validDate = true;
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Please try again.");
+                    }
+                }
+
+                manager.addTask(title, description, priority, dueDate);
                 System.out.println("Task added successfully!");
 
                 // View Tasks
